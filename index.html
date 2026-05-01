@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Torneo de Cubos Rubik · Universidad Surcolombiana</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --principal:        #8F141B;
+      --principal-oscuro: #5C0E12;
+      --principal-medio:  #B15B60;
+      --principal-claro:  #E3C5C6;
+      --principal-palido: #DDB8BA;
+      --principal-bg:     #F4E7E8;
+      --gris-oscuro: #1c1c1c;
+      --gris-medio:  #5a5a5a;
+      --gris-claro:  #faf6f6;
+      --blanco:      #ffffff;
+      --borde:       #e0cece;
+      --radio:    10px;
+      --radio-lg: 16px;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--gris-claro);
+      color: var(--gris-oscuro);
+      min-height: 100vh;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--principal);
+      color: white;
+      padding: 3rem 1.5rem 4rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(0deg,  rgba(255,255,255,0.04) 0px, rgba(255,255,255,0.04) 1px, transparent 1px, transparent 48px),
+        repeating-linear-gradient(90deg, rgba(255,255,255,0.04) 0px, rgba(255,255,255,0.04) 1px, transparent 1px, transparent 48px);
+      pointer-events: none;
+    }
+
+    .cube-grid {
+      display: inline-grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3px;
+      width: 60px;
+      height: 60px;
+      margin: 0 auto 1.5rem;
+      animation: spin 6s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      0%, 100% { transform: rotate(0deg); }
+      25%       { transform: rotate(90deg); }
+      50%       { transform: rotate(180deg); }
+      75%       { transform: rotate(270deg); }
+    }
+
+    .cube-grid span { border-radius: 2px; }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.28);
+      color: rgba(255,255,255,0.92);
+      font-family: 'Syne', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 100px;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2rem, 6vw, 3.2rem);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.02em;
+    }
+
+    .hero h1 span { color: var(--principal-claro); }
+
+    .hero p {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.78);
+      max-width: 440px;
+      margin: 0 auto 1.5rem;
+      line-height: 1.6;
+    }
+
+    .hero-tags {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .hero-tag {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.22);
+      color: rgba(255,255,255,0.88);
+      font-size: 12px;
+      padding: 5px 12px;
+      border-radius: 100px;
+      font-family: 'Syne', sans-serif;
+      font-weight: 500;
+    }
+
+    /* ── FORMULARIO ── */
+    .form-container {
+      max-width: 700px;
+      margin: -2rem auto 3rem;
+      padding: 0 1rem;
+      position: relative;
+      z-index: 10;
+    }
+
+    .form-card {
+      background: var(--blanco);
+      border-radius: var(--radio-lg);
+      border: 1px solid var(--borde);
+      overflow: hidden;
+      box-shadow: 0 4px 32px rgba(143,20,27,0.10);
+    }
+
+    .section {
+      padding: 1.75rem 2rem;
+      border-bottom: 1px solid var(--borde);
+    }
+
+    .section:last-child { border-bottom: none; }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 1.25rem;
+    }
+
+    .section-num {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--principal);
+      color: white;
+      font-family: 'Syne', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--gris-oscuro);
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .field-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .field { display: flex; flex-direction: column; gap: 6px; }
+
+    .field label {
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--gris-medio);
+      font-family: 'Syne', sans-serif;
+      letter-spacing: 0.02em;
+    }
+
+    .req { color: var(--principal); margin-left: 2px; }
+
+    .field input,
+    .field select {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      padding: 10px 12px;
+      border: 1px solid var(--borde);
+      border-radius: var(--radio);
+      background: var(--gris-claro);
+      color: var(--gris-oscuro);
+      width: 100%;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+      -webkit-appearance: none;
+    }
+
+    .field input:focus,
+    .field select:focus {
+      border-color: var(--principal-medio);
+      background: white;
+    }
+
+    /* ── MODALIDADES ── */
+    .events-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .event-card {
+      border: 1.5px solid var(--borde);
+      border-radius: var(--radio-lg);
+      padding: 16px 12px;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.2s;
+      text-align: center;
+      position: relative;
+    }
+
+    .event-card:hover {
+      border-color: var(--principal-medio);
+      background: var(--principal-bg);
+    }
+
+    .event-card.selected {
+      border-color: var(--principal);
+      background: var(--principal-bg);
+    }
+
+    .event-card.selected::after {
+      content: '✓';
+      position: absolute;
+      top: 8px;
+      right: 10px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--principal);
+      font-family: 'Syne', sans-serif;
+    }
+
+    .event-card input[type=checkbox] { display: none; }
+
+    .event-emoji { font-size: 28px; margin-bottom: 8px; display: block; }
+
+    .event-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--gris-oscuro);
+      margin-bottom: 4px;
+    }
+
+    .event-desc {
+      font-size: 12px;
+      color: var(--gris-medio);
+      line-height: 1.4;
+    }
+
+    .wca-note {
+      margin-top: 12px;
+      padding: 10px 14px;
+      background: var(--principal-bg);
+      border-left: 3px solid var(--principal-claro);
+      border-radius: 0 var(--radio) var(--radio) 0;
+      font-size: 12px;
+      color: var(--principal-oscuro);
+      line-height: 1.5;
+    }
+
+    .wca-note a { color: var(--principal); font-weight: 500; }
+
+    /* ── TÉRMINOS ── */
+    .agree-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--borde);
+    }
+
+    .agree-row:last-child { border-bottom: none; }
+
+    .agree-row input[type=checkbox] {
+      width: 17px;
+      height: 17px;
+      flex-shrink: 0;
+      margin-top: 2px;
+      accent-color: var(--principal);
+      cursor: pointer;
+    }
+
+    .agree-row label {
+      font-size: 13px;
+      color: var(--gris-medio);
+      line-height: 1.55;
+      cursor: pointer;
+    }
+
+    .agree-row a { color: var(--principal); }
+
+    /* ── FOOTER ── */
+    .form-footer {
+      padding: 1.5rem 2rem;
+      background: var(--gris-claro);
+      border-top: 1px solid var(--borde);
+    }
+
+    .gratis-banner {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--principal-bg);
+      border: 1px solid var(--principal-claro);
+      border-radius: var(--radio);
+      padding: 10px 14px;
+      margin-bottom: 1rem;
+      font-size: 13px;
+      color: var(--principal-oscuro);
+      font-weight: 500;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 14px;
+      font-family: 'Syne', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      background: var(--principal);
+      color: white;
+      border: none;
+      border-radius: var(--radio-lg);
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      text-transform: uppercase;
+    }
+
+    .submit-btn:hover  { background: var(--principal-oscuro); }
+    .submit-btn:active { transform: scale(0.99); }
+
+    /* ── ÉXITO ── */
+    .success-screen {
+      display: none;
+      text-align: center;
+      padding: 3rem 2rem;
+    }
+
+    .success-check {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--principal-bg);
+      border: 2px solid var(--principal);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.25rem;
+      font-size: 28px;
+      color: var(--principal);
+    }
+
+    .success-screen h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--gris-oscuro);
+      margin-bottom: 0.5rem;
+    }
+
+    .success-screen p {
+      font-size: 14px;
+      color: var(--gris-medio);
+      max-width: 360px;
+      margin: 0 auto;
+      line-height: 1.65;
+    }
+
+    #success-detail {
+      margin-top: 1rem;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--principal);
+      font-family: 'Syne', sans-serif;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 520px) {
+      .section      { padding: 1.5rem 1.25rem; }
+      .field-grid   { grid-template-columns: 1fr; }
+      .events-grid  { grid-template-columns: 1fr; }
+      .form-footer  { padding: 1.25rem; }
+      .hero         { padding: 2.5rem 1rem 3.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="cube-grid">
+      <span style="background:#E3C5C6"></span>
+      <span style="background:#5C0E12"></span>
+      <span style="background:#E3C5C6"></span>
+      <span style="background:#B15B60"></span>
+      <span style="background:rgba(255,255,255,0.2)"></span>
+      <span style="background:#B15B60"></span>
+      <span style="background:#5C0E12"></span>
+      <span style="background:#DDB8BA"></span>
+      <span style="background:#5C0E12"></span>
+    </div>
+    <div class="hero-badge">Universidad Surcolombiana · Neiva, Huila</div>
+    <h1>Torneo de <span>Cubos Rubik</span></h1>
+    <p>Normas oficiales WCA 2024 · Abierto para toda la comunidad estudiantil. Inscripción gratuita.</p>
+    <div class="hero-tags">
+      <span class="hero-tag">⏱ Speedsolving</span>
+      <span class="hero-tag">🏆 Normas WCA</span>
+      <span class="hero-tag">🎓 Comunidad USCO</span>
+      <span class="hero-tag">✅ Gratis</span>
+    </div>
+  </header>
+
+  <!-- FORMULARIO -->
+  <div class="form-container">
+    <div class="form-card" id="main-form">
+
+      <!-- Sección 1: Datos personales -->
+      <div class="section">
+        <div class="section-header">
+          <div class="section-num">1</div>
+          <span class="section-title">Datos personales</span>
+        </div>
+        <div class="field-grid" style="margin-bottom:14px">
+          <div class="field">
+            <label>Nombre completo <span class="req">*</span></label>
+            <input type="text" id="nombre" placeholder="Ej. Juan Pérez García" autocomplete="name">
+          </div>
+          <div class="field">
+            <label>Número de documento <span class="req">*</span></label>
+            <input type="text" id="doc" placeholder="CC / TI / Pasaporte">
+          </div>
+        </div>
+        <div class="field-grid" style="margin-bottom:14px">
+          <div class="field">
+            <label>Fecha de nacimiento <span class="req">*</span></label>
+            <input type="date" id="nacimiento">
+          </div>
+          <div class="field">
+            <label>Género</label>
+            <select id="genero">
+              <option value="">Selecciona...</option>
+              <option>Masculino</option>
+              <option>Femenino</option>
+              <option>No binario</option>
+              <option>Prefiero no decir</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-grid">
+          <div class="field">
+            <label>Correo electrónico <span class="req">*</span></label>
+            <input type="email" id="email" placeholder="correo@ejemplo.com" autocomplete="email">
+          </div>
+          <div class="field">
+            <label>Teléfono / WhatsApp <span class="req">*</span></label>
+            <input type="tel" id="tel" placeholder="+57 300 000 0000" autocomplete="tel">
+          </div>
+        </div>
+      </div>
+
+      <!-- Sección 2: Modalidades -->
+      <div class="section">
+        <div class="section-header">
+          <div class="section-num">2</div>
+          <span class="section-title">Modalidad a participar</span>
+        </div>
+        <div class="events-grid">
+          <div class="event-card selected" id="card-333" onclick="toggleEvent('333', this)">
+            <input type="checkbox" checked>
+            <span class="event-emoji">🟧</span>
+            <div class="event-name">3×3×3</div>
+            <div class="event-desc">Speedsolve clásico, la modalidad más popular del mundo</div>
+          </div>
+          <div class="event-card" id="card-222" onclick="toggleEvent('222', this)">
+            <input type="checkbox">
+            <span class="event-emoji">🟦</span>
+            <div class="event-name">2×2×2</div>
+            <div class="event-desc">Pocket cube, ideal para principiantes</div>
+          </div>
+          <div class="event-card" id="card-pyra" onclick="toggleEvent('pyra', this)">
+            <input type="checkbox">
+            <span class="event-emoji">🔺</span>
+            <div class="event-name">Pyraminx</div>
+            <div class="event-desc">Cubo piramidal con mecánica única</div>
+          </div>
+        </div>
+        <div class="wca-note">
+          Todas las modalidades siguen el <a href="https://www.worldcubeassociation.org/regulations/translations/spanish/" target="_blank">Reglamento oficial WCA</a>, incluyendo normas de inspección, mezcla, resolución y penalizaciones.
+        </div>
+      </div>
+
+      <!-- Sección 3: Términos -->
+      <div class="section">
+        <div class="section-header">
+          <div class="section-num">3</div>
+          <span class="section-title">Aceptación de términos</span>
+        </div>
+        <div class="agree-row">
+          <input type="checkbox" id="reglamento">
+          <label for="reglamento">He leído y acepto el <a href="https://www.worldcubeassociation.org/regulations/translations/spanish/" target="_blank">Reglamento oficial de la WCA</a> y me comprometo a cumplirlo durante el torneo. <span class="req">*</span></label>
+        </div>
+        <div class="agree-row">
+          <input type="checkbox" id="datos">
+          <label for="datos">Autorizo a la Universidad Surcolombiana para el tratamiento de mis datos personales con fines organizativos del torneo, conforme a la Ley 1581 de 2012. <span class="req">*</span></label>
+        </div>
+        <div class="agree-row">
+          <input type="checkbox" id="imagenes">
+          <label for="imagenes">Autorizo el uso de fotografías y videos tomados durante el evento con fines institucionales y de difusión.</label>
+        </div>
+      </div>
+
+      <!-- Footer / Envío -->
+      <div class="form-footer">
+        <div class="gratis-banner">
+          ✅ Inscripción completamente gratuita — no se requiere ningún pago.
+        </div>
+        <button class="submit-btn" onclick="handleSubmit()">Enviar inscripción →</button>
+      </div>
+
+    </div>
+
+    <!-- Pantalla de éxito -->
+    <div class="form-card success-screen" id="success-screen">
+      <div class="success-check">✓</div>
+      <h2>¡Inscripción enviada!</h2>
+      <p>Recibirás un correo de confirmación. Recuerda llevar tu documento de identidad el día del torneo.</p>
+      <p id="success-detail"></p>
+    </div>
+  </div>
+
+  <script>
+    const selected = new Set(['333']);
+
+    function toggleEvent(id, card) {
+      const cb = card.querySelector('input[type=checkbox]');
+      if (selected.has(id)) {
+        selected.delete(id);
+        card.classList.remove('selected');
+        cb.checked = false;
+      } else {
+        selected.add(id);
+        card.classList.add('selected');
+        cb.checked = true;
+      }
+    }
+
+    function handleSubmit() {
+      const nombre = document.getElementById('nombre').value.trim();
+      const doc    = document.getElementById('doc').value.trim();
+      const nac    = document.getElementById('nacimiento').value;
+      const email  = document.getElementById('email').value.trim();
+      const tel    = document.getElementById('tel').value.trim();
+      const reglam = document.getElementById('reglamento').checked;
+      const datos  = document.getElementById('datos').checked;
+
+      if (!nombre || !doc || !nac || !email || !tel) {
+        alert('Por favor completa todos los campos obligatorios (*).');
+        return;
+      }
+      if (selected.size === 0) {
+        alert('Selecciona al menos una modalidad para participar.');
+        return;
+      }
+      if (!reglam || !datos) {
+        alert('Debes aceptar los términos obligatorios para continuar.');
+        return;
+      }
+
+      const nombres = { '333': '3×3×3', '222': '2×2×2', 'pyra': 'Pyraminx' };
+      const mods = [...selected].map(id => nombres[id]).join(', ');
+
+      document.getElementById('main-form').style.display = 'none';
+      document.getElementById('success-screen').style.display = 'block';
+      document.getElementById('success-detail').textContent = nombre + ' · ' + mods;
+    }
+  </script>
+
+</body>
+</html>
