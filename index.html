@@ -31,7 +31,6 @@
       min-height: 100vh;
     }
 
-    /* ── HERO ── */
     .hero {
       background: var(--principal);
       color: white;
@@ -122,7 +121,6 @@
       font-weight: 500;
     }
 
-    /* ── FORMULARIO ── */
     .form-container {
       max-width: 700px;
       margin: -2rem auto 3rem;
@@ -216,7 +214,6 @@
       background: white;
     }
 
-    /* ── MODALIDADES ── */
     .events-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -286,7 +283,6 @@
 
     .wca-note a { color: var(--principal); font-weight: 500; }
 
-    /* ── TÉRMINOS ── */
     .agree-row {
       display: flex;
       align-items: flex-start;
@@ -315,7 +311,6 @@
 
     .agree-row a { color: var(--principal); }
 
-    /* ── FOOTER ── */
     .form-footer {
       padding: 1.5rem 2rem;
       background: var(--gris-claro);
@@ -352,10 +347,10 @@
       text-transform: uppercase;
     }
 
-    .submit-btn:hover  { background: var(--principal-oscuro); }
-    .submit-btn:active { transform: scale(0.99); }
+    .submit-btn:hover     { background: var(--principal-oscuro); }
+    .submit-btn:active    { transform: scale(0.99); }
+    .submit-btn:disabled  { background: var(--principal-claro); cursor: not-allowed; }
 
-    /* ── ÉXITO ── */
     .success-screen {
       display: none;
       text-align: center;
@@ -400,7 +395,6 @@
       font-family: 'Syne', sans-serif;
     }
 
-    /* ── RESPONSIVE ── */
     @media (max-width: 520px) {
       .section      { padding: 1.5rem 1.25rem; }
       .field-grid   { grid-template-columns: 1fr; }
@@ -412,7 +406,6 @@
 </head>
 <body>
 
-  <!-- HERO -->
   <header class="hero">
     <div class="cube-grid">
       <span style="background:#E3C5C6"></span>
@@ -436,11 +429,9 @@
     </div>
   </header>
 
-  <!-- FORMULARIO -->
   <div class="form-container">
     <div class="form-card" id="main-form">
 
-      <!-- Sección 1: Datos personales -->
       <div class="section">
         <div class="section-header">
           <div class="section-num">1</div>
@@ -449,21 +440,21 @@
         <div class="field-grid" style="margin-bottom:14px">
           <div class="field">
             <label>Nombre completo <span class="req">*</span></label>
-            <input type="text" id="nombre" placeholder="Ej. Juan Pérez García" autocomplete="name">
+            <input type="text" id="nombre" name="Nombre completo" placeholder="Ej. Juan Pérez García" autocomplete="name" required>
           </div>
           <div class="field">
             <label>Número de documento <span class="req">*</span></label>
-            <input type="text" id="doc" placeholder="CC / TI / Pasaporte">
+            <input type="text" id="doc" name="Número de documento" placeholder="CC / TI / Pasaporte" required>
           </div>
         </div>
         <div class="field-grid" style="margin-bottom:14px">
           <div class="field">
             <label>Fecha de nacimiento <span class="req">*</span></label>
-            <input type="date" id="nacimiento">
+            <input type="date" id="nacimiento" name="Fecha de nacimiento" required>
           </div>
           <div class="field">
             <label>Género</label>
-            <select id="genero">
+            <select id="genero" name="Género">
               <option value="">Selecciona...</option>
               <option>Masculino</option>
               <option>Femenino</option>
@@ -475,16 +466,15 @@
         <div class="field-grid">
           <div class="field">
             <label>Correo electrónico <span class="req">*</span></label>
-            <input type="email" id="email" placeholder="correo@ejemplo.com" autocomplete="email">
+            <input type="email" id="email" name="email" placeholder="correo@ejemplo.com" autocomplete="email" required>
           </div>
           <div class="field">
             <label>Teléfono / WhatsApp <span class="req">*</span></label>
-            <input type="tel" id="tel" placeholder="+57 300 000 0000" autocomplete="tel">
+            <input type="tel" id="tel" name="Teléfono" placeholder="+57 300 000 0000" autocomplete="tel" required>
           </div>
         </div>
       </div>
 
-      <!-- Sección 2: Modalidades -->
       <div class="section">
         <div class="section-header">
           <div class="section-num">2</div>
@@ -492,30 +482,30 @@
         </div>
         <div class="events-grid">
           <div class="event-card selected" id="card-333" onclick="toggleEvent('333', this)">
-            <input type="checkbox" checked>
+            <input type="checkbox" id="ev-333" checked>
             <span class="event-emoji">🟧</span>
             <div class="event-name">3×3×3</div>
             <div class="event-desc">Speedsolve clásico, la modalidad más popular del mundo</div>
           </div>
           <div class="event-card" id="card-222" onclick="toggleEvent('222', this)">
-            <input type="checkbox">
+            <input type="checkbox" id="ev-222">
             <span class="event-emoji">🟦</span>
             <div class="event-name">2×2×2</div>
             <div class="event-desc">Pocket cube, ideal para principiantes</div>
           </div>
           <div class="event-card" id="card-pyra" onclick="toggleEvent('pyra', this)">
-            <input type="checkbox">
+            <input type="checkbox" id="ev-pyra">
             <span class="event-emoji">🔺</span>
             <div class="event-name">Pyraminx</div>
             <div class="event-desc">Cubo piramidal con mecánica única</div>
           </div>
         </div>
+        <input type="hidden" id="modalidades-input" name="Modalidades">
         <div class="wca-note">
           Todas las modalidades siguen el <a href="https://www.worldcubeassociation.org/regulations/translations/spanish/" target="_blank">Reglamento oficial WCA</a>, incluyendo normas de inspección, mezcla, resolución y penalizaciones.
         </div>
       </div>
 
-      <!-- Sección 3: Términos -->
       <div class="section">
         <div class="section-header">
           <div class="section-num">3</div>
@@ -535,17 +525,15 @@
         </div>
       </div>
 
-      <!-- Footer / Envío -->
       <div class="form-footer">
         <div class="gratis-banner">
           ✅ Inscripción completamente gratuita — no se requiere ningún pago.
         </div>
-        <button class="submit-btn" onclick="handleSubmit()">Enviar inscripción →</button>
+        <button class="submit-btn" id="submit-btn" onclick="handleSubmit()">Enviar inscripción →</button>
       </div>
 
     </div>
 
-    <!-- Pantalla de éxito -->
     <div class="form-card success-screen" id="success-screen">
       <div class="success-check">✓</div>
       <h2>¡Inscripción enviada!</h2>
@@ -556,6 +544,7 @@
 
   <script>
     const selected = new Set(['333']);
+    const nombresModal = { '333': '3×3×3', '222': '2×2×2', 'pyra': 'Pyraminx' };
 
     function toggleEvent(id, card) {
       const cb = card.querySelector('input[type=checkbox]');
@@ -570,14 +559,16 @@
       }
     }
 
-    function handleSubmit() {
-      const nombre = document.getElementById('nombre').value.trim();
-      const doc    = document.getElementById('doc').value.trim();
-      const nac    = document.getElementById('nacimiento').value;
-      const email  = document.getElementById('email').value.trim();
-      const tel    = document.getElementById('tel').value.trim();
-      const reglam = document.getElementById('reglamento').checked;
-      const datos  = document.getElementById('datos').checked;
+    async function handleSubmit() {
+      const nombre  = document.getElementById('nombre').value.trim();
+      const doc     = document.getElementById('doc').value.trim();
+      const nac     = document.getElementById('nacimiento').value;
+      const email   = document.getElementById('email').value.trim();
+      const tel     = document.getElementById('tel').value.trim();
+      const genero  = document.getElementById('genero').value;
+      const reglam  = document.getElementById('reglamento').checked;
+      const datos   = document.getElementById('datos').checked;
+      const imagenes = document.getElementById('imagenes').checked;
 
       if (!nombre || !doc || !nac || !email || !tel) {
         alert('Por favor completa todos los campos obligatorios (*).');
@@ -592,12 +583,46 @@
         return;
       }
 
-      const nombres = { '333': '3×3×3', '222': '2×2×2', 'pyra': 'Pyraminx' };
-      const mods = [...selected].map(id => nombres[id]).join(', ');
+      const mods = [...selected].map(id => nombresModal[id]).join(', ');
+      document.getElementById('modalidades-input').value = mods;
 
-      document.getElementById('main-form').style.display = 'none';
-      document.getElementById('success-screen').style.display = 'block';
-      document.getElementById('success-detail').textContent = nombre + ' · ' + mods;
+      const btn = document.getElementById('submit-btn');
+      btn.disabled = true;
+      btn.textContent = 'Enviando...';
+
+      const formData = new FormData();
+      formData.append('Nombre completo', nombre);
+      formData.append('Número de documento', doc);
+      formData.append('Fecha de nacimiento', nac);
+      formData.append('Género', genero || 'No especificado');
+      formData.append('email', email);
+      formData.append('Teléfono', tel);
+      formData.append('Modalidades', mods);
+      formData.append('Acepta reglamento WCA', reglam ? 'Sí' : 'No');
+      formData.append('Autoriza datos personales', datos ? 'Sí' : 'No');
+      formData.append('Autoriza imágenes', imagenes ? 'Sí' : 'No');
+
+      try {
+        const response = await fetch('https://formspree.io/f/xgodvvzv', {
+          method: 'POST',
+          body: formData,
+          headers: { 'Accept': 'application/json' }
+        });
+
+        if (response.ok) {
+          document.getElementById('main-form').style.display = 'none';
+          document.getElementById('success-screen').style.display = 'block';
+          document.getElementById('success-detail').textContent = nombre + ' · ' + mods;
+        } else {
+          alert('Hubo un error al enviar. Por favor intenta de nuevo.');
+          btn.disabled = false;
+          btn.textContent = 'Enviar inscripción →';
+        }
+      } catch (err) {
+        alert('Error de conexión. Verifica tu internet e intenta de nuevo.');
+        btn.disabled = false;
+        btn.textContent = 'Enviar inscripción →';
+      }
     }
   </script>
 
