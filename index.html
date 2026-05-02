@@ -214,6 +214,62 @@
       background: white;
     }
 
+    /* Tipo de participante — tarjetas */
+    .tipo-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .tipo-card {
+      border: 1.5px solid var(--borde);
+      border-radius: var(--radio-lg);
+      padding: 14px 8px;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.2s;
+      text-align: center;
+      position: relative;
+    }
+
+    .tipo-card:hover {
+      border-color: var(--principal-medio);
+      background: var(--principal-bg);
+    }
+
+    .tipo-card.selected {
+      border-color: var(--principal);
+      background: var(--principal-bg);
+    }
+
+    .tipo-card.selected::after {
+      content: '✓';
+      position: absolute;
+      top: 6px;
+      right: 8px;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--principal);
+      font-family: 'Syne', sans-serif;
+    }
+
+    .tipo-emoji { font-size: 22px; margin-bottom: 6px; display: block; }
+
+    .tipo-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--gris-oscuro);
+      margin-bottom: 3px;
+    }
+
+    .tipo-desc {
+      font-size: 11px;
+      color: var(--gris-medio);
+      line-height: 1.3;
+    }
+
+    /* Modalidades */
     .events-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -252,22 +308,47 @@
       font-family: 'Syne', sans-serif;
     }
 
+    .event-card.proximamente {
+      opacity: 0.55;
+      cursor: default;
+      border-style: dashed;
+    }
+
+    .event-card.proximamente:hover {
+      border-color: var(--borde);
+      background: transparent;
+    }
+
     .event-card input[type=checkbox] { display: none; }
 
-    .event-emoji { font-size: 28px; margin-bottom: 8px; display: block; }
+    .event-emoji { font-size: 26px; margin-bottom: 8px; display: block; }
 
     .event-name {
       font-family: 'Syne', sans-serif;
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 700;
       color: var(--gris-oscuro);
       margin-bottom: 4px;
+      line-height: 1.3;
     }
 
     .event-desc {
-      font-size: 12px;
+      font-size: 11px;
       color: var(--gris-medio);
       line-height: 1.4;
+    }
+
+    .prox-badge {
+      display: inline-block;
+      margin-top: 6px;
+      background: var(--principal-bg);
+      color: var(--principal);
+      font-size: 10px;
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 100px;
+      letter-spacing: 0.05em;
     }
 
     .wca-note {
@@ -283,6 +364,7 @@
 
     .wca-note a { color: var(--principal); font-weight: 500; }
 
+    /* Términos */
     .agree-row {
       display: flex;
       align-items: flex-start;
@@ -382,7 +464,7 @@
     .success-screen p {
       font-size: 14px;
       color: var(--gris-medio);
-      max-width: 360px;
+      max-width: 380px;
       margin: 0 auto;
       line-height: 1.65;
     }
@@ -395,9 +477,10 @@
       font-family: 'Syne', sans-serif;
     }
 
-    @media (max-width: 520px) {
+    @media (max-width: 560px) {
       .section      { padding: 1.5rem 1.25rem; }
       .field-grid   { grid-template-columns: 1fr; }
+      .tipo-grid    { grid-template-columns: repeat(2, 1fr); }
       .events-grid  { grid-template-columns: 1fr; }
       .form-footer  { padding: 1.25rem; }
       .hero         { padding: 2.5rem 1rem 3.5rem; }
@@ -420,7 +503,7 @@
     </div>
     <div class="hero-badge">Universidad Surcolombiana · Neiva, Huila</div>
     <h1>Torneo de <span>Cubos Rubik</span></h1>
-    <p>Normas oficiales WCA 2024 · Abierto para toda la comunidad estudiantil. Inscripción gratuita.</p>
+    <p>Normas oficiales WCA 2024 · Abierto para toda la comunidad. Inscripción gratuita.</p>
     <div class="hero-tags">
       <span class="hero-tag">⏱ Speedsolving</span>
       <span class="hero-tag">🏆 Normas WCA</span>
@@ -432,11 +515,13 @@
   <div class="form-container">
     <div class="form-card" id="main-form">
 
+      <!-- Sección 1: Datos personales -->
       <div class="section">
         <div class="section-header">
           <div class="section-num">1</div>
           <span class="section-title">Datos personales</span>
         </div>
+
         <div class="field-grid" style="margin-bottom:14px">
           <div class="field">
             <label>Nombre completo <span class="req">*</span></label>
@@ -447,6 +532,7 @@
             <input type="text" id="doc" name="Número de documento" placeholder="CC / TI / Pasaporte" required>
           </div>
         </div>
+
         <div class="field-grid" style="margin-bottom:14px">
           <div class="field">
             <label>Fecha de nacimiento <span class="req">*</span></label>
@@ -463,7 +549,8 @@
             </select>
           </div>
         </div>
-        <div class="field-grid">
+
+        <div class="field-grid" style="margin-bottom:20px">
           <div class="field">
             <label>Correo electrónico <span class="req">*</span></label>
             <input type="email" id="email" name="email" placeholder="correo@ejemplo.com" autocomplete="email" required>
@@ -473,39 +560,74 @@
             <input type="tel" id="tel" name="Teléfono" placeholder="+57 300 000 0000" autocomplete="tel" required>
           </div>
         </div>
+
+        <!-- Tipo de participante -->
+        <div style="margin-bottom:6px">
+          <label style="font-size:12.5px;font-weight:500;color:var(--gris-medio);font-family:'Syne',sans-serif;letter-spacing:0.02em;display:block;margin-bottom:10px">
+            Tipo de participante <span class="req">*</span>
+          </label>
+          <div class="tipo-grid">
+            <div class="tipo-card" id="tipo-primaria" onclick="selectTipo('Primaria', this)">
+              <span class="tipo-emoji">🎒</span>
+              <div class="tipo-name">Primaria</div>
+              <div class="tipo-desc">Básica primaria</div>
+            </div>
+            <div class="tipo-card" id="tipo-secundaria" onclick="selectTipo('Secundaria', this)">
+              <span class="tipo-emoji">📚</span>
+              <div class="tipo-name">Secundaria</div>
+              <div class="tipo-desc">Bachillerato</div>
+            </div>
+            <div class="tipo-card" id="tipo-universitario" onclick="selectTipo('Universitario', this)">
+              <span class="tipo-emoji">🎓</span>
+              <div class="tipo-name">Universitario</div>
+              <div class="tipo-desc">Educación superior</div>
+            </div>
+            <div class="tipo-card" id="tipo-externo" onclick="selectTipo('Externo', this)">
+              <span class="tipo-emoji">🌐</span>
+              <div class="tipo-name">Externo</div>
+              <div class="tipo-desc">Comunidad general</div>
+            </div>
+          </div>
+        </div>
+        <input type="hidden" id="tipo-input" name="Tipo de participante">
       </div>
 
+      <!-- Sección 2: Modalidades -->
       <div class="section">
         <div class="section-header">
           <div class="section-num">2</div>
           <span class="section-title">Modalidad a participar</span>
         </div>
         <div class="events-grid">
-          <div class="event-card selected" id="card-333" onclick="toggleEvent('333', this)">
-            <input type="checkbox" id="ev-333" checked>
-            <span class="event-emoji">🟧</span>
-            <div class="event-name">3×3×3</div>
-            <div class="event-desc">Speedsolve clásico, la modalidad más popular del mundo</div>
+
+          <div class="event-card selected" id="card-velocista" onclick="toggleEvent('velocista', this)">
+            <input type="checkbox" checked>
+            <span class="event-emoji">⚡</span>
+            <div class="event-name">3×3×3 Velocista</div>
+            <div class="event-desc">Resuelve el cubo en el menor tiempo posible</div>
           </div>
-          <div class="event-card" id="card-222" onclick="toggleEvent('222', this)">
-            <input type="checkbox" id="ev-222">
-            <span class="event-emoji">🟦</span>
-            <div class="event-name">2×2×2</div>
-            <div class="event-desc">Pocket cube, ideal para principiantes</div>
+
+          <div class="event-card" id="card-movimientos" onclick="toggleEvent('movimientos', this)">
+            <input type="checkbox">
+            <span class="event-emoji">🧠</span>
+            <div class="event-name">3×3×3 Menor movimientos</div>
+            <div class="event-desc">Resuelve el cubo usando la menor cantidad de movimientos</div>
           </div>
-          <div class="event-card" id="card-pyra" onclick="toggleEvent('pyra', this)">
-            <input type="checkbox" id="ev-pyra">
-            <span class="event-emoji">🔺</span>
-            <div class="event-name">Pyraminx</div>
-            <div class="event-desc">Cubo piramidal con mecánica única</div>
+
+          <div class="event-card proximamente" id="card-prox">
+            <span class="event-emoji">🔒</span>
+            <div class="event-name">Próximamente</div>
+            <div class="event-desc">Modalidad por definir</div>
+            <span class="prox-badge">PRÓXIMO</span>
           </div>
+
         </div>
-        <input type="hidden" id="modalidades-input" name="Modalidades">
         <div class="wca-note">
-          Todas las modalidades siguen el <a href="https://www.worldcubeassociation.org/regulations/translations/spanish/" target="_blank">Reglamento oficial WCA</a>, incluyendo normas de inspección, mezcla, resolución y penalizaciones.
+          Todas las modalidades siguen el <a href="https://www.worldcubeassociation.org/regulations/translations/spanish/" target="_blank">Reglamento oficial WCA</a>. El cubo se puede resolver en menos de 20 movimientos — ¡demuéstralo!
         </div>
       </div>
 
+      <!-- Sección 3: Términos -->
       <div class="section">
         <div class="section-header">
           <div class="section-num">3</div>
@@ -525,6 +647,7 @@
         </div>
       </div>
 
+      <!-- Footer -->
       <div class="form-footer">
         <div class="gratis-banner">
           ✅ Inscripción completamente gratuita — no se requiere ningún pago.
@@ -534,6 +657,7 @@
 
     </div>
 
+    <!-- Pantalla de éxito -->
     <div class="form-card success-screen" id="success-screen">
       <div class="success-check">✓</div>
       <h2>¡Inscripción enviada!</h2>
@@ -543,38 +667,53 @@
   </div>
 
   <script>
-    const selected = new Set(['333']);
-    const nombresModal = { '333': '3×3×3', '222': '2×2×2', 'pyra': 'Pyraminx' };
+    const selectedEvents = new Set(['velocista']);
+    const nombresModal = {
+      'velocista':   '3×3×3 Velocista',
+      'movimientos': '3×3×3 Menor movimientos'
+    };
+    let tipoSeleccionado = '';
+
+    function selectTipo(valor, card) {
+      document.querySelectorAll('.tipo-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      tipoSeleccionado = valor;
+      document.getElementById('tipo-input').value = valor;
+    }
 
     function toggleEvent(id, card) {
       const cb = card.querySelector('input[type=checkbox]');
-      if (selected.has(id)) {
-        selected.delete(id);
+      if (selectedEvents.has(id)) {
+        selectedEvents.delete(id);
         card.classList.remove('selected');
         cb.checked = false;
       } else {
-        selected.add(id);
+        selectedEvents.add(id);
         card.classList.add('selected');
         cb.checked = true;
       }
     }
 
     async function handleSubmit() {
-      const nombre  = document.getElementById('nombre').value.trim();
-      const doc     = document.getElementById('doc').value.trim();
-      const nac     = document.getElementById('nacimiento').value;
-      const email   = document.getElementById('email').value.trim();
-      const tel     = document.getElementById('tel').value.trim();
-      const genero  = document.getElementById('genero').value;
-      const reglam  = document.getElementById('reglamento').checked;
-      const datos   = document.getElementById('datos').checked;
+      const nombre   = document.getElementById('nombre').value.trim();
+      const doc      = document.getElementById('doc').value.trim();
+      const nac      = document.getElementById('nacimiento').value;
+      const email    = document.getElementById('email').value.trim();
+      const tel      = document.getElementById('tel').value.trim();
+      const genero   = document.getElementById('genero').value;
+      const reglam   = document.getElementById('reglamento').checked;
+      const datos    = document.getElementById('datos').checked;
       const imagenes = document.getElementById('imagenes').checked;
 
       if (!nombre || !doc || !nac || !email || !tel) {
         alert('Por favor completa todos los campos obligatorios (*).');
         return;
       }
-      if (selected.size === 0) {
+      if (!tipoSeleccionado) {
+        alert('Selecciona tu tipo de participante.');
+        return;
+      }
+      if (selectedEvents.size === 0) {
         alert('Selecciona al menos una modalidad para participar.');
         return;
       }
@@ -583,24 +722,24 @@
         return;
       }
 
-      const mods = [...selected].map(id => nombresModal[id]).join(', ');
-      document.getElementById('modalidades-input').value = mods;
+      const mods = [...selectedEvents].map(id => nombresModal[id]).join(', ');
 
       const btn = document.getElementById('submit-btn');
       btn.disabled = true;
       btn.textContent = 'Enviando...';
 
       const formData = new FormData();
-      formData.append('Nombre completo', nombre);
-      formData.append('Número de documento', doc);
-      formData.append('Fecha de nacimiento', nac);
-      formData.append('Género', genero || 'No especificado');
-      formData.append('email', email);
-      formData.append('Teléfono', tel);
-      formData.append('Modalidades', mods);
-      formData.append('Acepta reglamento WCA', reglam ? 'Sí' : 'No');
-      formData.append('Autoriza datos personales', datos ? 'Sí' : 'No');
-      formData.append('Autoriza imágenes', imagenes ? 'Sí' : 'No');
+      formData.append('Nombre completo',       nombre);
+      formData.append('Número de documento',   doc);
+      formData.append('Fecha de nacimiento',   nac);
+      formData.append('Género',                genero || 'No especificado');
+      formData.append('email',                 email);
+      formData.append('Teléfono',              tel);
+      formData.append('Tipo de participante',  tipoSeleccionado);
+      formData.append('Modalidades',           mods);
+      formData.append('Acepta reglamento WCA', reglam   ? 'Sí' : 'No');
+      formData.append('Autoriza datos',        datos    ? 'Sí' : 'No');
+      formData.append('Autoriza imágenes',     imagenes ? 'Sí' : 'No');
 
       try {
         const response = await fetch('https://formspree.io/f/xgodvvzv', {
@@ -612,7 +751,8 @@
         if (response.ok) {
           document.getElementById('main-form').style.display = 'none';
           document.getElementById('success-screen').style.display = 'block';
-          document.getElementById('success-detail').textContent = nombre + ' · ' + mods;
+          document.getElementById('success-detail').textContent =
+            nombre + ' · ' + tipoSeleccionado + ' · ' + mods;
         } else {
           alert('Hubo un error al enviar. Por favor intenta de nuevo.');
           btn.disabled = false;
