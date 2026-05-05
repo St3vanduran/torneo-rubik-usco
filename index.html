@@ -51,29 +51,13 @@
       pointer-events: none;
     }
 
-    .cube-grid {
-      display: inline-grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: repeat(3, 1fr);
-      gap: 4px;
-      width: 64px;
-      height: 64px;
-      margin: 0 auto 1.25rem;
-      animation: spin 6s ease-in-out infinite;
-    }
-
-    .cube-grid span {
+    .hero-logo {
       display: block;
-      width: 100%;
-      height: 100%;
-      border-radius: 3px;
-    }
-
-    @keyframes spin {
-      0%, 100% { transform: rotate(0deg); }
-      25%       { transform: rotate(90deg); }
-      50%       { transform: rotate(180deg); }
-      75%       { transform: rotate(270deg); }
+      max-height: 130px;
+      width: auto;
+      max-width: 100%;
+      margin: 0 auto 1.25rem;
+      filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.18));
     }
 
 
@@ -603,17 +587,7 @@
 <body>
 
   <header class="hero">
-    <div class="cube-grid">
-      <span style="background:#E3C5C6"></span>
-      <span style="background:#5C0E12"></span>
-      <span style="background:#E3C5C6"></span>
-      <span style="background:#B15B60"></span>
-      <span style="background:rgba(255,255,255,0.2)"></span>
-      <span style="background:#B15B60"></span>
-      <span style="background:#5C0E12"></span>
-      <span style="background:#DDB8BA"></span>
-      <span style="background:#5C0E12"></span>
-    </div>
+    <img class="hero-logo" src="logos/universidad-surcolombiana-v.png" alt="Universidad Surcolombiana">
     <div class="hero-badge">Universidad Surcolombiana · Neiva, Huila</div>
     <h1>Torneo de<br><span>Cubos Rubik</span></h1>
     <p>Normas oficiales WCA 2024 · Abierto para toda la comunidad. Inscripción gratuita.</p>
